@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard User</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* General Reset */
         * {
@@ -66,7 +68,7 @@
         }
 
         .sidebar ul li a:hover {
-            background-color: #1565c0;
+            background-color:hsl(212, 80.30%, 41.80%);
         }
 
         .sidebar ul li a i {
@@ -203,9 +205,9 @@
         </div>
         <h2>Welcome, User!</h2>
         <ul>
-            <li><a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="user_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
             <li><a href="absensi.php"><i class="fas fa-user-check"></i> Absensi</a></li>
-            <li><a href="data_siswa.php"><i class="fas fa-users"></i> Data Siswa</a></li>
+            <li><a href="dataa_siswaa.php"><i class="fas fa-users"></i> Data Siswa</a></li>
             <li><a href="profil.php"><i class="fas fa-user"></i> Profil</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>

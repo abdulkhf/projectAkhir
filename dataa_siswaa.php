@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Data Siswa</title>
+    <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-
-/* Styling untuk body dan keseluruhan halaman */
-body {
+                /* Styling untuk body dan keseluruhan halaman */
+                body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
-            height: 100vh;
-            overflow-y: auto; 
+            height: 100vh; /* Tinggi layar penuh */
+            overflow-y: auto; /* Hilangkan scroll horizontal jika ada */
         }
 
         /* Sidebar kiri */
@@ -91,139 +90,20 @@ body {
             color: #e3f2fd;
         }
 
-
-.container {
-    max-width: 2000px;
-    margin: 20px auto;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    margin-right: none;
-    flex-grow: 1;
-    overflow-y: auto;
-    justify-content: center;
-    align-items: center;
-    
-}
-
-.section-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #343a40;
-    margin-bottom: 20px;
-}
-
-.form-container {
-    margin-bottom: 40px;
-}
-
-.form-group label {
-    font-weight: bold;
-    color: #495057;
-}
-
-.form-control, .form-select {
-    border-radius: 6px;
-    border: 1px solid #ced4da;
-    padding: 8px;
-}
-
-textarea.form-control {
-    resize: none;
-}
-
-.table {
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-}
-
-.table th, .table td {
-    text-align: center;
-    padding: 12px;
-    border: 1px solid #dee2e6;
-}
-
-.table thead {
-    background-color: #343a40;
-    color: #ffffff;
-}
-
-.btn {
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.btn-edit {
-    background-color: #28a745;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.btn-edit:hover {
-    background-color: #218838;
-}
-
-
-.btn-delete {
-    background-color: #dc3545;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.btn-delete:hover {
-    background-color: #c82333;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-
-@media (max-width: 576px) {
-    .section-title {
-        font-size: 20px;
-    }
-
-    .form-group label {
-        font-size: 14px;
-    }
-
-    .btn {
-        font-size: 12px;
-    }
-}
-
     </style>
 </head>
 <body>
-<div class="sidebar">
+    
+    <div class="sidebar">
         <div class="logo">
             <img src="img/logo.jpg" alt="Logo">
         </div>
         <h2>Navigation</h2>
         <ul>
-            <li><a href="admin_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="data_siswa.php"><i class="fas fa-user-graduate"></i> Data Siswa</a></li>
-            <li><a href="laporan.php"><i class="fas fa-chart-line"></i> Laporan</a></li>
-            <li><a href="data_absen.php"><i class="fas fa-calendar-check"></i> Data Absen</a></li>
+            <li><a href="user_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="absensi.php"><i class="fas fa-user-graduate"></i> Absensi</a></li>
+            <li><a href="dataa_siswaa.php"><i class="fas fa-chart-line"></i> Data Siswa</a></li>
+            <li><a href="profil_user.php"><i class="fas fa-calendar-check"></i> Profil Saya</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
         <footer>
@@ -231,11 +111,10 @@ textarea.form-control {
         </footer>
     </div>
 
-
     <div class="container">
         <h2 class="section-title text-center">Input Data Siswa</h2>
         <div class="form-container">
-            <form action="input_data_siswa.php" method="POST">
+            <form action="input_data_user.php" method="POST">
                 <div class="row">
                     <!-- Kolom Kiri -->
                     <div class="col-md-6">
@@ -306,70 +185,5 @@ textarea.form-control {
             </form>
         </div>
 
-        <!-- Tabel Data Siswa -->
-        <h2 class="section-title text-center mt-5">Data Siswa</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>NISN</th>
-                        <th>Email</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Jurusan</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Alamat</th>
-                        <th>No Telepon</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                // Koneksi ke database
-                $conn = new mysqli("localhost", "root", "", "app");
-
-                if ($conn->connect_error) {
-                    die("Koneksi gagal: " . $conn->connect_error);
-                }
-
-                // Ambil data siswa dari database
-                $sql = "SELECT * FROM data_siswa";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    $no = 1;
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                                <td>{$no}</td>
-                                <td>{$row['nisn']}</td>
-                                <td>{$row['email']}</td>
-                                <td>{$row['nama']}</td>
-                                <td>{$row['kelas']}</td>
-                                <td>{$row['jurusan']}</td>
-                                <td>{$row['jenis_kelamin']}</td>
-                                <td>{$row['alamat']}</td>
-                                <td>{$row['telepon']}</td>
-                                <td>
-                                    <a href='edit_siswa.php?id={$row['id']}' class='btn-edit'>Edit</a>
-                                    <a href='hapus_siswa.php?id={$row['id']}' class='btn-delete' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
-                                </td>
-
-                              </tr>";
-                        $no++;
-                    }
-                } else {
-                    echo "<tr><td colspan='11' class='text-center'>Tidak ada data siswa</td></tr>";
-                }
-
-                $conn->close();
-                ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
