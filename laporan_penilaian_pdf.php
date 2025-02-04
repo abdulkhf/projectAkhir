@@ -22,7 +22,7 @@ if (isset($_GET['kelas']) && isset($_GET['bulan'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Penilaian</title>
+    <title>Admin LAPORAN</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Styling container utama */

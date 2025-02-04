@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pembina LAPORAN</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -41,7 +41,7 @@
 
         .sidebar h2 {
             text-align: center;
-            transform: translateY(-73px);
+            transform: translateY(-76.5px);
             margin-bottom: 20px;
             color: #ffffff;
             font-size: 18px;
@@ -51,7 +51,7 @@
         .sidebar ul {
             list-style-type: none;
             padding: 0;
-            transform: translateY(-116.5px);
+            transform: translateY(-118.5px);
         }
 
         .sidebar ul li {

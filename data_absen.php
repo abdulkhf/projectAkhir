@@ -70,7 +70,7 @@ $total_halaman = ceil($total_data / $limit);
 
         .sidebar h2 {
             text-align: center;
-            transform: translateY(-63.5px);
+            transform: translateY(-60px);
             margin-bottom: 20px;
             color: #ffffff;
             font-size: 18px;
@@ -80,7 +80,7 @@ $total_halaman = ceil($total_data / $limit);
         .sidebar ul {
             list-style-type: none;
             padding: 0;
-            transform: translateY(-92px);
+            transform: translateY(-90px);
         }
 
         .sidebar ul li {

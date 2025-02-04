@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Kegiatan</title>
+    <title>Pembina KEGIATAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Styling untuk body dan keseluruhan halaman */
@@ -41,7 +41,7 @@
 
         .sidebar h2 {
             text-align: center;
-            transform: translateY(-60px);
+            transform: translateY(-63px);
             margin-bottom: 20px;
             color: #ffffff;
             font-size: 18px;
@@ -51,7 +51,7 @@
         .sidebar ul {
             list-style-type: none;
             padding: 0;
-            transform: translateY(-90px);
+            transform: translateY(-92px);
         }
 
         .sidebar ul li {

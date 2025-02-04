@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard User</title>
+    <title>User ABSENSI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -224,7 +224,7 @@
         <ul>
             <li><a href="user_dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
             <li><a href="absensi.php"><i class="fas fa-user-check"></i> Absensi</a></li>
-            <li><a href="profil.php"><i class="fas fa-user"></i> Profil</a></li>
+            <!-- <li><a href="profil.php"><i class="fas fa-user"></i> Profil</a></li> -->
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
