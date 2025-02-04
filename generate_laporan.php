@@ -4,15 +4,22 @@ include 'koneksi.php';
 
 // Ambil data dari form
 $kelas = $_GET['kelas'];
-$jurusan = $_GET['jurusan'];
-$tanggal_mulai = $_GET['tanggal_mulai'];
-$tanggal_selesai = $_GET['tanggal_selesai'];
+$bulan = $_GET['bulan']; // Format: YYYY-MM
 
-// Query data berdasarkan filter
-$query = "SELECT * FROM data_absen 
-          WHERE kelas = ? AND jurusan = ? AND tanggal BETWEEN ? AND ?";
+// Pisahkan tahun dan bulan dari input
+list($tahun, $bulan_angka) = explode('-', $bulan);
+
+// Query SQL untuk filter berdasarkan kelas dan bulan
+$query = "SELECT data_absen.*, data_siswa.nama 
+          FROM data_absen 
+          JOIN data_siswa ON data_absen.user_id = data_siswa.id 
+          WHERE data_absen.kelas = ? 
+          AND MONTH(data_absen.tanggal) = ? 
+          AND YEAR(data_absen.tanggal) = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ssss", $kelas, $jurusan, $tanggal_mulai, $tanggal_selesai);
+$stmt->bind_param("sii", $kelas, $bulan_angka, $tahun);
+
+// Eksekusi query
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -24,8 +31,8 @@ $pdf->SetFont('Arial', 'B', 14);
 // Header PDF
 $pdf->Cell(0, 10, 'Laporan Kehadiran Siswa', 0, 1, 'C');
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(0, 10, "Kelas: $kelas | Jurusan: $jurusan", 0, 1, 'C');
-$pdf->Cell(0, 10, "Periode: $tanggal_mulai s/d $tanggal_selesai", 0, 1, 'C');
+$pdf->Cell(0, 10, "Kelas: $kelas", 0, 1, 'C');
+$pdf->Cell(0, 10, "Periode: $bulan", 0, 1, 'C');
 $pdf->Ln(10);
 
 // Table Header
@@ -41,7 +48,7 @@ $pdf->SetFont('Arial', '', 10);
 $no = 1;
 while ($row = $result->fetch_assoc()) {
     $pdf->Cell(10, 10, $no++, 1, 0, 'C');
-    $pdf->Cell(40, 10, $row['nama'], 1, 0);
+    $pdf->Cell(40, 10, $row['nama'], 1, 0); // Gunakan nama dari hasil query
     $pdf->Cell(30, 10, $row['tanggal'], 1, 0, 'C');
     $pdf->Cell(30, 10, $row['status'], 1, 0, 'C');
     $pdf->Cell(80, 10, $row['keterangan'], 1, 1);

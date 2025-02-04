@@ -88,24 +88,73 @@
         }
 
         /* Konten utama */
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f4f6f9;
-            overflow-y: auto;
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 30px;
         }
 
-        .content h1 {
-            color: #333;
-            font-size: 24px;
+        form {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1300px;
+            margin: 20px 0;
+            margin-left: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
             margin-bottom: 20px;
         }
 
-        .content p {
-            color: #555;
-            font-size: 16px;
-            line-height: 1.6;
-        }
+        .button-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px; /* Jarak dari input tanggal */
+    }
+
+    .button-container button {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Tombol Lihat Siswa */
+    .button-container button:first-child {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .button-container button:first-child:hover {
+        background-color: #0056b3;
+    }
+
+    /* Tombol Tabel Siswa */
+    .tabel-siswa-btn {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .tabel-siswa-btn:hover {
+        background-color: #218838;
+    }
 
         /* Responsif */
         @media (max-width: 768px) {
@@ -117,6 +166,8 @@
                 font-size: 14px;
             }
         }
+
+
     </style>
 </head>
 <body>
@@ -137,10 +188,28 @@
         </footer>
     </div>
 
-    <div class="content">
-        <h1>Selamat Datang, Pembina</h1>
-        <p>Gunakan menu di sebelah kiri untuk mengakses fitur-fitur yang tersedia.</p>
-        <p>Halaman ini adalah dashboard utama untuk pembina, tempat Anda dapat mengelola kegiatan, laporan, dan penilaian.</p>
-    </div>
+    <form action="proses_penilaian.php" method="POST">
+        <h1>Penilaian</h1>
+        
+        <label for="kegiatan">Pilih Kegiatan:</label>
+            <select name="id_kegiatan" id="kegiatan" required>
+                <option value="">-- Pilih Kegiatan --</option>
+                <?php
+                include 'koneksi.php';
+                $result = $conn->query("SELECT id, nama_kegiatan FROM kegiatan_db");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['nama_kegiatan']}</option>";
+                }
+                ?>
+            </select>
+
+        <label for="tanggal">Pilih Tanggal:</label>
+        <input type="date" name="tanggal" id="tanggal" required>
+
+        <div class="button-container">
+            <button type="submit" name="submit">Lihat Siswa</button>
+            <button type="button" onclick="window.location.href='tabel_nilai_pembina.php'" class="tabel-siswa-btn">Tabel Siswa</button>
+        </div>
+    </form>
 </body>
 </html>

@@ -3,20 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data Siswa</title>
+    <title>Input Data Siswa</title>
     <style>
-                /* Reset dan umum */
-                body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+        /* Reset dan umum */
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url('img/Screenshot 2025-02-02 194913.png') no-repeat center center fixed;
+        background-size: cover;
         }
+
+        body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('img/Screenshot 2025-02-02 194913.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(8px); /* Menambahkan efek blur */
+    z-index: -1;
+}
+
 
         .container {
             max-width: 900px;
             margin: 50px auto;
-            background: #fff;
+            background: rgb(255, 255, 255);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -112,77 +127,68 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="container">
-    <h2 class="section-title text-center">Edit Data Siswa</h2>
-    
-    <?php
-    include 'koneksi.php';
-    $id = $_GET['id'];
-    $query = "SELECT * FROM data_siswa WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    ?>
-    
+    <h2 class="section-title text-center">Input Data Siswa</h2>
     <div class="form-container">
-        <form action="proses_edit_siswa.php" method="POST">
-            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+        <form action="input_data_siswa.php" method="POST">
             <div class="row">
+                <!-- Kolom Kiri -->
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="nisn">NISN</label>
-                        <input type="text" class="form-control" id="nisn" name="nisn" value="<?php echo $row['nisn']; ?>" required>
+                        <label for="nis">NISN</label>
+                        <input type="text" class="form-control" id="nisn" name="nisn" placeholder="NISN" required>
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" required>
                     </div>
                     <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                         <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                            <option value="Laki-Laki" <?php if ($row['jenis_kelamin'] == 'Laki-Laki') echo 'selected'; ?>>Laki-Laki</option>
-                            <option value="Perempuan" <?php if ($row['jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?php echo $row['alamat']; ?></textarea>
+                        <textarea class="form-control" id="alamat" name="alamat" placeholder="Alamat" rows="3" required></textarea>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
                         <select class="form-control" id="kelas" name="kelas" required>
-                            <option value="X" <?php if ($row['kelas'] == 'X') echo 'selected'; ?>>X</option>
-                            <option value="XI" <?php if ($row['kelas'] == 'XI') echo 'selected'; ?>>XI</option>
-                            <option value="XII" <?php if ($row['kelas'] == 'XII') echo 'selected'; ?>>XII</option>
+                            <option value="">Pilih Kelas</option>
+                            <option value="X">X</option>
+                            <option value="XI">XI</option>
+                            <option value="XII">XII</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="jurusan">Jurusan</label>
+                        <label for="kelas">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
-                            <option value="RPL" <?php if ($row['jurusan'] == 'RPL') echo 'selected'; ?>>RPL</option>
-                            <option value="TKJ" <?php if ($row['jurusan'] == 'TKJ') echo 'selected'; ?>>TKJ</option>
-                            <option value="DKV" <?php if ($row['jurusan'] == 'DKV') echo 'selected'; ?>>DKV</option>
-                            <option value="ANM" <?php if ($row['jurusan'] == 'ANM') echo 'selected'; ?>>ANM</option>
-                            <option value="TB" <?php if ($row['jurusan'] == 'TB') echo 'selected'; ?>>TB</option>
-                            <option value="PHT" <?php if ($row['jurusan'] == 'PHT') echo 'selected'; ?>>PHT</option>
-                            <option value="SIJA" <?php if ($row['jurusan'] == 'SIJA') echo 'selected'; ?>>SIJA</option>
+                            <option value="">Pilih Jurusan</option>
+                            <option value="RPL">RPL</option>
+                            <option value="TKJ">TKJ</option>
+                            <option value="DKV">DKV</option>
+                            <option value="ANM">ANM</option>
+                            <option value="TB">TB</option>
+                            <option value="PHT">PHT</option>
+                            <option value="SIJA">SIJA</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="telepon">Telepon</label>
-                        <input type="text" class="form-control" id="telepon" name="telepon" value="<?php echo $row['telepon']; ?>" required>
+                        <input type="text" class="form-control" id="telepon" name="telepon" placeholder="Telepon" required>
                     </div>
                 </div>
             </div>
             <div class="form-group text-center">
-                <button type="submit" class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-success">Simpan</button>
                 <button type="button" class="btn btn-secondary" onclick="window.history.back();">Kembali</button>
             </div>
         </form>

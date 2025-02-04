@@ -1,3 +1,30 @@
+<?php
+include 'koneksi.php'; // Pastikan file koneksi ada
+
+// Set jumlah data per halaman
+$limit = 10;
+
+// Ambil halaman saat ini dari parameter URL (default = 1)
+$halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+$offset = ($halaman - 1) * $limit; // Menghitung offset data
+
+// Query untuk mendapatkan data absen dengan pagination
+$query = "SELECT a.id, s.nama, a.kelas, a.jurusan, a.tanggal, a.status, a.keterangan 
+          FROM data_absen a 
+          JOIN data_siswa s ON a.user_id = s.id
+          LIMIT $limit OFFSET $offset";
+$result = $conn->query($query);
+
+// Hitung total data untuk pagination
+$total_query = "SELECT COUNT(*) as total FROM data_absen";
+$total_result = $conn->query($total_query);
+$total_row = $total_result->fetch_assoc();
+$total_data = $total_row['total'];
+
+// Hitung jumlah halaman
+$total_halaman = ceil($total_data / $limit);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +70,7 @@
 
         .sidebar h2 {
             text-align: center;
-            transform: translateY(-60px);
+            transform: translateY(-63.5px);
             margin-bottom: 20px;
             color: #ffffff;
             font-size: 18px;
@@ -53,7 +80,7 @@
         .sidebar ul {
             list-style-type: none;
             padding: 0;
-            transform: translateY(-90px);
+            transform: translateY(-92px);
         }
 
         .sidebar ul li {
@@ -89,13 +116,25 @@
             font-size: 14px;
             color: #e3f2fd;
         }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding: 20px;
+            margin-top: -20px;
+
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #343a40;
+            margin: 0;
+        }
 
 
-h2 {
-    text-align: center;
-    color: #333;
-    margin-top: 20px;
-}
 
 /* Styling untuk container form dan tabel */
 .form-container, .table-container {
@@ -160,12 +199,13 @@ table {
 
 table th, table td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
+    vertical-align: middle;
     border-bottom: 1px solid #ddd;
 }
 
 table th {
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
 }
 
@@ -188,20 +228,45 @@ table tr:hover {
     }
 }
 
+.pagination {
+            margin-top: 20px;
+            text-align: left;
+            padding-left: 20px;
+        }
+        .pagination a, .pagination span {
+            padding: 8px 12px;
+            margin: 5px;
+            text-decoration: none;
+            background-color: #f1f1f1;
+            color: #007bff;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .pagination .active {
+            background-color: #007bff;
+            color: white;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="sidebar">
         <div class="logo">
-            <img src="img/logo.jpg" alt="Logo">
+        <img src="img/logo BP-Photoroom.png" alt="Logo">
         </div>
-        <h2>Navigation</h2>
+        <h2>Admin</h2>
         <ul>
             <li><a href="admin_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="data_siswa.php"><i class="fas fa-user-graduate"></i> Data Siswa</a></li>
             <li><a href="laporan.php"><i class="fas fa-chart-line"></i> Laporan</a></li>
             <li><a href="data_absen.php"><i class="fas fa-calendar-check"></i> Data Absen</a></li>
+            <li><a href="kegiatan.php"><i class="fas fa-bullhorn"></i> Kegiatan</a></li>
+            <li><a href="penilaian.php"><i class="fas fa-clipboard-list"></i> Penilaian</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
         <footer>
@@ -210,11 +275,13 @@ table tr:hover {
     </div>
 
     <div class="table-container">
-        <h2>Data Absen Siswa</h2>
+    <div class="section-header">
+        <h2 class="section-title">Data Absensi</h2>
+    </div>
         <table border="1">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>Nama Siswa</th>
                     <th>Kelas</th>
                     <th>Jurusan</th>
@@ -224,45 +291,45 @@ table tr:hover {
                 </tr>
             </thead>
             <tbody>
-            <?php
-            // Koneksi database
-            include 'koneksi.php';
-
-            // Periksa koneksi
-            if (!$conn) {
-                echo "<tr><td colspan='7'>Gagal terhubung ke database.</td></tr>";
-                exit;
-            }
-
-            // Query untuk mengambil data absen
-            $query = "SELECT a.id, s.nama, a.kelas, a.jurusan, a.tanggal, a.status, a.keterangan 
-                      FROM data_absen a 
-                      JOIN data_siswa s ON a.user_id = s.id";
-            $result = $conn->query($query);
-
-            if ($result && $result->num_rows > 0) {
-                // Menampilkan data absensi dalam tabel
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . htmlspecialchars($row['id']) . "</td>
-                            <td>" . htmlspecialchars($row['nama']) . "</td>
-                            <td>" . htmlspecialchars($row['kelas']) . "</td>
-                            <td>" . htmlspecialchars($row['jurusan']) . "</td>
-                            <td>" . htmlspecialchars($row['tanggal']) . "</td>
-                            <td>" . htmlspecialchars($row['status']) . "</td>
-                            <td>" . htmlspecialchars($row['keterangan']) . "</td>
-                          </tr>";
+            <?php 
+                if ($result->num_rows > 0) {
+                    $no = $offset + 1; // Nomor urut dimulai dari offset
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$no}</td>
+                                <td>{$row['nama']}</td>
+                                <td>{$row['kelas']}</td>
+                                <td>{$row['jurusan']}</td>
+                                <td>{$row['tanggal']}</td>
+                                <td>{$row['status']}</td>
+                                <td>{$row['keterangan']}</td>
+                            </tr>";
+                        $no++;
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>Tidak ada data tersedia.</td></tr>";
                 }
-            } else {
-                // Jika data tidak ditemukan
-                echo "<tr><td colspan='7'>Tidak ada data tersedia.</td></tr>";
-            }
-
-            // Menutup koneksi
-            $conn->close();
             ?>
             </tbody>
         </table>
+            <div class="pagination">
+                <?php if ($halaman > 1): ?>
+                    <a href="?halaman=<?= $halaman - 1 ?>">Sebelumnya</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_halaman; $i++): ?>
+                    <?php if ($i == $halaman): ?>
+                        <span class="active"><?= $i ?></span>
+                    <?php else: ?>
+                        <a href="?halaman=<?= $i ?>"><?= $i ?></a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+                <?php if ($halaman < $total_halaman): ?>
+                    <a href="?halaman=<?= $halaman + 1 ?>">Berikutnya</a>
+                <?php endif; ?>
+            </div>
     </div>
+
 </body>
 </html>

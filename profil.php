@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard User</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -17,9 +16,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
+            background-color: #f4f4f9;
         }
 
         /* Sidebar */
@@ -30,6 +29,8 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+            position: fixed;
+            height: 100%;
         }
 
         .sidebar .logo {
@@ -47,6 +48,7 @@
             text-align: center;
             margin: 15px 0;
             font-size: 20px;
+            color: #ffffff;
         }
 
         .sidebar ul {
@@ -78,8 +80,10 @@
 
         /* Main Content */
         .main-content {
-            flex: 1;
+            margin-left: 250px;
             padding: 20px;
+            width: calc(100% - 250px);
+            overflow-y: auto;
         }
 
         .header {
@@ -111,10 +115,6 @@
             color: #555;
         }
 
-  
-
-
-
         /* Footer */
         footer {
             margin-top: 20px;
@@ -122,52 +122,35 @@
             font-size: 14px;
             color: #999;
         }
+
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="logo">
-        <img src="img/logo BP-Photoroom.png" alt="Logo">
+            <img src="img/logo.jpg" alt="Logo">
         </div>
         <h2>User</h2>
         <ul>
-            <li><a href="user_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="user_dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
             <li><a href="absensi.php"><i class="fas fa-user-check"></i> Absensi</a></li>
+            <li><a href="dataa_siswaa.php"><i class="fas fa-users"></i> Data Siswa</a></li>
             <li><a href="profil.php"><i class="fas fa-user"></i> Profil</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
     <div class="main-content">
         <div class="header">
-            <h1>Dashboard</h1>
+            <h1>Profil</h1>
             <div class="user-info">
-                <img src="img/logo.jpg" alt="logo">
+                <img src="img/logo.jpg" alt="User Profile">
                 <span>John Doe</span>
             </div>
         </div>
-
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="relative group">
-                <img src="img/WhatsApp Image 2025-01-16 at 21.54.45.jpeg" alt="Kegiatan 1" class="w-full h-64 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-white text-lg font-semibold">Kegiatan 1</span>
-                </div>
-            </div>
-            
-            <div class="relative group">
-                <img src="img/WhatsApp Image 2025-01-16 at 21.54.34.jpeg" alt="Kegiatan 2" class="w-full h-64 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-white text-lg font-semibold">Kegiatan 2</span>
-                </div>
-            </div>
-            
-            <div class="relative group">
-                <img src="img/WhatsApp Image 2025-01-16 at 21.54.44.jpeg" alt="Kegiatan 3" class="w-full h-64 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-white text-lg font-semibold">Kegiatan 3</span>
-                </div>
-            </div>
-        </div>
+        
+        <footer>
+            <p>&copy; 2025 Dashboard User. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>

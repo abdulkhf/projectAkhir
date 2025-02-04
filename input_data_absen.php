@@ -2,44 +2,47 @@
 include 'koneksi.php'; // Pastikan file ini benar dan koneksi $conn valid
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Validasi input
-    $kelas = isset($_POST['kelas']) ? $_POST['kelas'] : null;
-    $jurusan = isset($_POST['jurusan']) ? $_POST['jurusan'] : null;
-    $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
-    $tanggal = isset($_POST['tanggal']) ? $_POST['tanggal'] : null;
-    $status = isset($_POST['status']) ? $_POST['status'] : null;
-    $keterangan = isset($_POST['keterangan']) ? $_POST['keterangan'] : null;
+    // Ambil data dari form
+    $kelas = htmlspecialchars(trim($_POST['kelas'] ?? ''));
+    $jurusan = htmlspecialchars(trim($_POST['jurusan'] ?? ''));
+    $user_id = htmlspecialchars(trim($_POST['user_id'] ?? ''));
+    $tanggal = htmlspecialchars(trim($_POST['tanggal'] ?? ''));
+    $status = htmlspecialchars(trim($_POST['status'] ?? ''));
+    $keterangan = htmlspecialchars(trim($_POST['keterangan'] ?? ''));
 
     // Periksa apakah semua data telah diisi
-    if (empty($kelas) || empty($jurusan) || empty($user_id) || empty($tanggal) || empty($status) || empty($keterangan)) {
-        echo "<script>alert('Semua data harus diisi!'); window.location.href='input_data_absen.php';</script>";
+    if (empty($kelas) || empty($jurusan) || empty($user_id) || empty($tanggal) || empty($status)) {
+        echo "<script>alert('Semua data wajib diisi!'); window.location.href='input_data_absen.php';</script>";
         exit;
     }
 
-    // Query SQL untuk menyimpan data
-    $query = "INSERT INTO data_absen (kelas, jurusan, user_id, tanggal, status, keterangan) 
-              VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
+    try {
+        // Query SQL untuk menyimpan data
+        $query = "INSERT INTO data_absen (kelas, jurusan, user_id, tanggal, status, keterangan) 
+                  VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
 
-    // Periksa jika prepare gagal
-    if (!$stmt) {
-        echo "<script>alert('Terjadi kesalahan pada query.'); window.location.href='input_data_absen.php';</script>";
-        exit;
+        if (!$stmt) {
+            throw new Exception("Kesalahan pada query: " . $conn->error);
+        }
+
+        // Bind parameter
+        $stmt->bind_param("ssisss", $kelas, $jurusan, $user_id, $tanggal, $status, $keterangan);
+
+        // Eksekusi query
+        if ($stmt->execute()) {
+            echo "<script>alert('Data absen berhasil disimpan!'); window.location.href='absensi.php';</script>";
+        } else {
+            throw new Exception("Gagal menyimpan data absen: " . $stmt->error);
+        }
+    } catch (Exception $e) {
+        // Tangkap error dan tampilkan
+        echo "<script>alert('Error: " . $e->getMessage() . "'); window.location.href='input_data_absen.php';</script>";
+    } finally {
+        // Pastikan koneksi dan statement selalu ditutup
+        $stmt->close();
+        $conn->close();
     }
-
-    // Bind parameter
-    $stmt->bind_param("ssisss", $kelas, $jurusan, $user_id, $tanggal, $status, $keterangan);
-
-    // Eksekusi query
-    if ($stmt->execute()) {
-        echo "<script>alert('Data absen berhasil disimpan!'); window.location.href='absensi.php';</script>";
-    } else {
-        // Tampilkan pesan error jika gagal
-        echo "<script>alert('Gagal menyimpan data absen: " . $stmt->error . "'); window.location.href='input_data_absen.php';</script>";
-    }
-
-    $stmt->close(); // Tutup statement
-    $conn->close(); // Tutup koneksi
 } else {
     // Jika metode bukan POST
     echo "<script>alert('Akses tidak valid.'); window.location.href='input_data_absen.php';</script>";

@@ -157,15 +157,13 @@
     <div class="logo">
         <img src="img/logo BP-Photoroom.png" alt="Logo">
     </div>
-    <h2>Admin</h2>
+    <h2>Pembina</h2>
     <ul>
-        <li><a href="admin_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="data_siswa.php"><i class="fas fa-user-graduate"></i> Data Siswa</a></li>
-        <li><a href="laporan.php"><i class="fas fa-chart-line"></i> Laporan</a></li>
-        <li><a href="data_absen.php"><i class="fas fa-calendar-check"></i> Data Absen</a></li>
-        <li><a href="kegiatan.php"><i class="fas fa-bullhorn"></i> Kegiatan</a></li>
-        <li><a href="penilaian.php"><i class="fas fa-clipboard-list"></i> Penilaian</a></li>
-        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="pembina_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="kegiatan_pembina.php"><i class="fas fa-bullhorn"></i> Kegiatan</a></li>
+            <li><a href="laporan_pembina.php"><i class="fas fa-chart-line"></i> Laporan</a></li>
+            <li><a href="penilaian_pembina.php"><i class="fas fa-clipboard-list"></i> Penilaian</a></li>
+            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
     <footer>
         <p>&copy; 2025 Abdul Website</p>
@@ -178,7 +176,7 @@
     </div>
 
         
-        <form action="laporan_absensi_pdf.php" method="get">
+        <form action="laporan_absen_pembina_pdf.php" method="get">
             <h3>Laporan Absensi</h3>
             <div class="form-group">
                 <label for="kelas_absensi">Pilih Kelas:</label>
@@ -201,7 +199,7 @@
         
         <hr>
         
-        <form action="laporan_penilaian_pdf.php" method="get">
+        <form action="laporan_nilai_pembina_pdf.php" method="get">
             <h3>Laporan Penilaian</h3>
             <div class="form-group">
                 <label for="kelas_penilaian">Pilih Kelas:</label>

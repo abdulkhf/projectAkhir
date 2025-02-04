@@ -1,47 +1,10 @@
-<?php
-session_start();
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
-    exit();
-}
-
-
-include 'koneksi.php'; // Koneksi database
-
-// Query total siswa
-$query_total_students = "SELECT COUNT(*) AS total_students FROM data_siswa";
-$result_students = $conn->query($query_total_students);
-$total_students = ($result_students->num_rows > 0) ? $result_students->fetch_assoc()['total_students'] : 0;
-
-// Tanggal hari ini
-$tanggal_hari_ini = date('Y-m-d');
-
-// Query siswa hadir
-$query_siswa_hadir = "SELECT COUNT(*) AS siswa_hadir FROM data_absen WHERE tanggal = '$tanggal_hari_ini' AND status = 'Hadir'";
-$result_hadir = $conn->query($query_siswa_hadir);
-$siswa_hadir = ($result_hadir->num_rows > 0) ? $result_hadir->fetch_assoc()['siswa_hadir'] : 0;
-
-// Query siswa izin
-$query_siswa_izin = "SELECT COUNT(*) AS siswa_izin FROM data_absen WHERE tanggal = '$tanggal_hari_ini' AND status = 'Izin'";
-$result_izin = $conn->query($query_siswa_izin);
-$siswa_izin = ($result_izin->num_rows > 0) ? $result_izin->fetch_assoc()['siswa_izin'] : 0;
-
-// Query siswa sakit
-$query_siswa_sakit = "SELECT COUNT(*) AS siswa_sakit FROM data_absen WHERE tanggal = '$tanggal_hari_ini' AND status = 'Sakit'";
-$result_sakit = $conn->query($query_siswa_sakit);
-$siswa_sakit = ($result_sakit->num_rows > 0) ? $result_sakit->fetch_assoc()['siswa_sakit'] : 0;
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <title>Form Penilaian Siswa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
         /* Styling untuk body dan keseluruhan halaman */
         body {
@@ -125,14 +88,6 @@ $siswa_sakit = ($result_sakit->num_rows > 0) ? $result_sakit->fetch_assoc()['sis
             color: #e3f2fd;
         }
 
-        /* Konten utama */
-        /* Main content */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #f4f6f9;
-            overflow-y: auto;
-        }
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -151,53 +106,76 @@ $siswa_sakit = ($result_sakit->num_rows > 0) ? $result_sakit->fetch_assoc()['sis
             margin: 0;
         }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+
+        form {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1335px;
+            margin: 0px 0;
+            margin-left: 0px;
+        
         }
 
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
+        label {
+            display: block;
+            font-weight: bold;
             color: #555;
+            margin-bottom: 8px;
         }
 
-        .card p {
-            font-size: 16px;
-            color: #888;
+        select, input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
-        .card i {
-            font-size: 40px;
-            color: #1e88e5;
-            margin-bottom: 10px;
-        }
+        .button-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px; /* Jarak dari input tanggal */
+    }
 
-        .chart-container {
-            margin-top: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .button-container button {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Tombol Lihat Siswa */
+    .button-container button:first-child {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .button-container button:first-child:hover {
+        background-color: #0056b3;
+    }
+
+    /* Tombol Tabel Siswa */
+    .tabel-siswa-btn {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .tabel-siswa-btn:hover {
+        background-color: #218838;
+    }
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="img/logo BP-Photoroom.png" alt="Logo">
+        <img src="img/logo BP-Photoroom.png" alt="Logo">
         </div>
         <h2>Admin</h2>
         <ul>
@@ -214,33 +192,36 @@ $siswa_sakit = ($result_sakit->num_rows > 0) ? $result_sakit->fetch_assoc()['sis
         </footer>
     </div>
 
-    <div class="main-content">
+    
+
+    <form action="proses_penilaian.php" method="POST">
     <div class="section-header">
-        <h2 class="section-title">Admin Dashboard</h2>
+        <h2 class="section-title">Penilaian</h2>
     </div>
+        
+        <label for="kegiatan">Pilih Kegiatan:</label>
+            <select name="id_kegiatan" id="kegiatan" required>
+                <option value="">-- Pilih Kegiatan --</option>
+                <?php
+                include 'koneksi.php';
+                $result = $conn->query("SELECT id, nama_kegiatan FROM kegiatan_db");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['nama_kegiatan']}</option>";
+                }
+                ?>
+            </select>
 
-        <div class="cards">
-        <div class="card">
-            <i class="fas fa-user-graduate"></i>
-            <h3>Total Siswa</h3>
-            <p><?php echo $total_students; ?></p>
-        </div>
-        <div class="card">
-            <i class="fas fa-chalkboard-teacher"></i>
-            <h3>Siswa Hadir</h3>
-            <p><?php echo $siswa_hadir; ?></p>
-        </div>
-        <div class="card">
-            <i class="fas fa-calendar-check"></i>
-            <h3>Siswa Izin</h3>
-            <p><?php echo $siswa_izin; ?></p>
-        </div>
-        <div class="card">
-            <i class="fas fa-users"></i>
-            <h3>Siswa Sakit</h3>
-            <p><?php echo $siswa_sakit; ?></p>
-        </div>
-    </div>
+        <label for="tanggal">Pilih Tanggal:</label>
+        <input type="date" name="tanggal" id="tanggal" required>
 
+        <div class="button-container">
+            <button type="submit" name="submit">Lihat Siswa</button>
+            <button type="button" onclick="window.location.href='tabel_penilaian.php'" class="tabel-siswa-btn">Tabel Siswa</button>
+        </div>
+    </form>
+
+
+
+   
 </body>
 </html>

@@ -19,6 +19,7 @@
             display: flex;
             height: 100vh;
             background-color: #f4f4f9;
+            overflow: hidden;
         }
 
         /* Sidebar */
@@ -71,7 +72,7 @@
         }
 
         .sidebar ul li a:hover {
-            background-color:hsl(212, 80.30%, 41.80%);
+            background-color: hsl(212, 80.30%, 41.80%);
         }
 
         .sidebar ul li a i {
@@ -192,8 +193,8 @@
 
         @media (max-width: 576px) {
             .sidebar {
-                position: static;
                 width: 100%;
+                position: static;
                 height: auto;
             }
 
@@ -207,20 +208,19 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <img src="img/logo.jpg" alt="Logo">
+        <img src="img/logo BP-Photoroom.png" alt="Logo">
         </div>
-        <h2>Welcome, User!</h2>
+        <h2>User</h2>
         <ul>
             <li><a href="user_dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
             <li><a href="absensi.php"><i class="fas fa-user-check"></i> Absensi</a></li>
-            <li><a href="dataa_siswaa.php"><i class="fas fa-users"></i> Data Siswa</a></li>
             <li><a href="profil.php"><i class="fas fa-user"></i> Profil</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
     <div class="main-content">
         <div class="header">
-            <h1>Absensin</h1>
+            <h1>Absensi</h1>
             <div class="user-info">
                 <img src="img/logo.jpg" alt="User Profile">
                 <span>John Doe</span>
@@ -231,7 +231,7 @@
             <form action="input_data_absen.php" method="post">
                 <div class="form-group">
                     <label for="kelas">Kelas</label>
-                    <select id="kelas" name="kelas" class="form-control" required>
+                    <select id="kelas" name="kelas" required>
                         <option value="">Pilih Kelas</option>
                         <option value="X">X</option>
                         <option value="XI">XI</option>
@@ -240,16 +240,44 @@
                 </div>
                 <div class="form-group">
                     <label for="jurusan">Jurusan</label>
-                    <select id="jurusan" name="jurusan" class="form-control" required>
+                    <select id="jurusan" name="jurusan" required>
                         <option value="">Pilih Jurusan</option>
                         <option value="RPL">RPL</option>
                         <option value="TKJ">TKJ</option>
                         <option value="DKV">DKV</option>
+                        <option value="ANM">ANM</option>
+                        <option value="TB">TB</option>
+                        <option value="PHT">PHT</option>
+                        <option value="SIJA">SIJA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nama">Nama Siswa</label>
+                    <select id="nama" name="user_id" required>
+                        <option value="">Pilih Nama</option>
+                        <!-- Data fetched from database -->
+                        <?php
+                            // Hubungkan ke database
+                            include 'koneksi.php';
+
+                            // Query untuk mengambil data siswa
+                            $query = "SELECT id, nama FROM data_siswa ORDER BY nama ASC";
+                            $result = $conn->query($query);
+
+                            // Tampilkan data siswa dalam dropdown
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['id'] . '">' . $row['nama'] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">Tidak ada data siswa</option>';
+                            }
+                            ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="tanggal">Tanggal Absen</label>
-                    <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+                    <input type="date" id="tanggal" name="tanggal" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status Kehadiran</label>
@@ -266,7 +294,7 @@
                 </div>
                 <div class="form-group">
                     <label for="keterangan">Keterangan</label>
-                    <textarea id="keterangan" name="keterangan" class="form-control" rows="3"></textarea>
+                    <textarea id="keterangan" name="keterangan" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-submit">Simpan Data Absen</button>
             </form>
@@ -277,3 +305,47 @@
     </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const kelasSelect = document.getElementById("kelas");
+    const jurusanSelect = document.getElementById("jurusan");
+    const namaSelect = document.getElementById("nama");
+    const keteranganInput = document.getElementById("keterangan");
+    const tanggalInput = document.getElementById("tanggal");
+
+    // Set batas tanggal maksimal ke hari ini
+    const today = new Date().toISOString().split("T")[0];
+    tanggalInput.setAttribute("max", today);
+
+    // Filter siswa berdasarkan kelas dan jurusan
+    function filterNamaSiswa() {
+        const kelas = kelasSelect.value;
+        const jurusan = jurusanSelect.value;
+        
+        fetch("fetch_siswa.php?kelas=" + kelas + "&jurusan=" + jurusan)
+            .then(response => response.json())
+            .then(data => {
+                namaSelect.innerHTML = '<option value="">Pilih Nama</option>';
+                data.forEach(siswa => {
+                    const option = document.createElement("option");
+                    option.value = siswa.id;
+                    option.textContent = siswa.nama;
+                    namaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+
+    kelasSelect.addEventListener("change", filterNamaSiswa);
+    jurusanSelect.addEventListener("change", filterNamaSiswa);
+
+    // Batasi jumlah karakter di keterangan
+    keteranganInput.addEventListener("input", function () {
+        if (this.value.length > 200) {
+            this.value = this.value.slice(0, 200);
+        }
+    });
+});
+
+</script>
