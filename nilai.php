@@ -130,6 +130,8 @@ select {
 
 </style>
 
+
+
 <?php
 session_start();
 if (!isset($_SESSION['siswa'])) {
@@ -157,7 +159,6 @@ $tanggal = $_SESSION['tanggal'];
                 <th>PBB</th>
                 <th>Fisik</th>
                 <th>Public Speaking</th>
-                <th>Tanggung Jawab</th>
                 <th>Disiplin</th>
                 <th>Attitude</th>
             </tr>
@@ -168,7 +169,7 @@ $tanggal = $_SESSION['tanggal'];
                     <td><?php echo $siswa['nama']; ?></td>
                     <input type="hidden" name="id_siswa[]" value="<?php echo $siswa['user_id']; ?>">
                     <?php
-                    $aspek = ['pbb', 'fisik', 'public_speaking', 'tanggung_jawab', 'disiplin', 'attitude'];
+                    $aspek = ['pbb', 'fisik', 'public_speaking', 'disiplin', 'attitude'];
                     foreach ($aspek as $a) {
                         echo "<td>
                                 <select name='{$a}[]' required>

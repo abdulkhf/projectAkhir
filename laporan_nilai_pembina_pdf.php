@@ -1,9 +1,29 @@
+<?php
+require_once 'koneksi.php';
+
+if (isset($_GET['kelas']) && isset($_GET['bulan'])) {
+    $kelas = $_GET['kelas'];
+    $bulan = $_GET['bulan'];
+    
+    $sql = "SELECT s.nama AS nama_siswa, k.nama_kegiatan, p.tanggal, 
+                p.pbb, p.fisik, p.public_speaking, p.tanggung_jawab, p.disiplin, p.attitude 
+            FROM penilaian p
+            JOIN data_siswa s ON p.id_siswa = s.id
+            JOIN kegiatan_db k ON p.id_kegiatan = k.id
+            WHERE s.kelas = '$kelas' AND DATE_FORMAT(p.tanggal, '%Y-%m') = '$bulan' 
+            ORDER BY p.tanggal DESC";
+    
+    $result = $conn->query($sql);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Penilaian</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         /* Styling container utama */
         .container {
@@ -98,60 +118,49 @@
 <body>
 
 <div class="container">
-    <!-- Judul -->
     <h2 class="title">Laporan Penilaian</h2>
-
-    <!-- Tabel -->
+    
     <div class="table-container">
         <table>
-            <tr>
-                <th>No</th>
-                <th>Nama Siswa</th>
-                <th>Kegiatan</th>
-                <th>Tanggal</th>
-                <th>PBB</th>
-                <th>Fisik</th>
-                <th>Public Speaking</th>
-                <th>Tanggung Jawab</th>
-                <th>Disiplin</th>
-                <th>Attitude</th>
-            </tr>
-            <?php
-            include 'koneksi.php';
-            if (isset($_GET['kelas']) && isset($_GET['bulan'])) {
-                $kelas = $_GET['kelas'];
-                $bulan = $_GET['bulan'];
-                
-                $query = "SELECT s.nama AS nama_siswa, k.nama_kegiatan, p.tanggal, 
-                            p.pbb, p.fisik, p.public_speaking, p.tanggung_jawab, p.disiplin, p.attitude 
-                          FROM penilaian p
-                          JOIN data_siswa s ON p.id = s.id
-                          JOIN kegiatan_db k ON p.id_kegiatan = k.id
-                          WHERE s.kelas = '$kelas' AND DATE_FORMAT(p.tanggal, '%Y-%m') = '$bulan'";
-
-                $result = $conn->query($query);
-                $no = 1;
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>{$no}</td>
-                            <td>{$row['nama_siswa']}</td>
-                            <td>{$row['nama_kegiatan']}</td>
-                            <td>{$row['tanggal']}</td>
-                            <td>{$row['pbb']}</td>
-                            <td>{$row['fisik']}</td>
-                            <td>{$row['public_speaking']}</td>
-                            <td>{$row['tanggung_jawab']}</td>
-                            <td>{$row['disiplin']}</td>
-                            <td>{$row['attitude']}</td>
-                        </tr>";
-                    $no++;
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Siswa</th>
+                    <th>Kegiatan</th>
+                    <th>Tanggal</th>
+                    <th>PBB</th>
+                    <th>Fisik</th>
+                    <th>Public Speaking</th>
+                    <th>Disiplin</th>
+                    <th>Attitude</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (isset($result) && $result->num_rows > 0) {
+                    $no = 1;
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$no}</td>
+                                <td>{$row['nama_siswa']}</td>
+                                <td>{$row['nama_kegiatan']}</td>
+                                <td>{$row['tanggal']}</td>
+                                <td>{$row['pbb']}</td>
+                                <td>{$row['fisik']}</td>
+                                <td>{$row['public_speaking']}</td>
+                                <td>{$row['disiplin']}</td>
+                                <td>{$row['attitude']}</td>
+                              </tr>";
+                        $no++;
+                    }
+                } else {
+                    echo "<tr><td colspan='10'>Tidak ada data penilaian.</td></tr>";
                 }
-            }
-            ?>
+                ?>
+            </tbody>
         </table>
     </div>
-
-    <!-- Tombol Cetak PDF & Kembali -->
+    
     <div class="btn-container">
         <a href="generate_laporan_penilaian.php?kelas=<?php echo $kelas; ?>&bulan=<?php echo $bulan; ?>" class="btn-print">Cetak PDF</a>
         <a href="laporan_pembina.php" class="btn-back">Kembali</a>

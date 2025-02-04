@@ -8,14 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pbb = $_POST['pbb'];
     $fisik = $_POST['fisik'];
     $public_speaking = $_POST['public_speaking'];
-    $tanggung_jawab = $_POST['tanggung_jawab'];
     $disiplin = $_POST['disiplin'];
     $attitude = $_POST['attitude'];
 
-    $stmt = $conn->prepare("INSERT INTO penilaian (id_siswa, id_kegiatan, tanggal, pbb, fisik, public_speaking, tanggung_jawab, disiplin, attitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO penilaian (id_siswa, id_kegiatan, tanggal, pbb, fisik, public_speaking, disiplin, attitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     for ($i = 0; $i < count($id_siswa); $i++) {
-        $stmt->bind_param('iisssssss', $id_siswa[$i], $id_kegiatan, $tanggal, $pbb[$i], $fisik[$i], $public_speaking[$i], $tanggung_jawab[$i], $disiplin[$i], $attitude[$i]);
+        $stmt->bind_param('iissssss', $id_siswa[$i], $id_kegiatan, $tanggal, $pbb[$i], $fisik[$i], $public_speaking[$i], $disiplin[$i], $attitude[$i]);
         $stmt->execute();
     }
 

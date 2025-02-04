@@ -92,29 +92,6 @@ if (isset($_GET['id'])) {
             color: #555;
         }
 
-        .attendance-list {
-            margin-top: 20px;
-        }
-
-        .attendance-list h2 {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-
-        .attendance-list ul {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0;
-        }
-
-        .attendance-list ul li {
-            padding: 5px 0;
-            color: #555;
-            border-bottom: 1px solid #f1f1f1;
-        }
 
         .btn-back {
             display: inline-block;
@@ -140,21 +117,6 @@ if (isset($_GET['id'])) {
         <p><strong>Lokasi:</strong> <?php echo htmlspecialchars($row['lokasi']); ?></p>
         <p><strong>Deskripsi:</strong> <?php echo nl2br(htmlspecialchars($row['deskripsi'])); ?></p>
 
-        <!-- Daftar siswa yang hadir -->
-        <div class="attendance-list">
-            <h2>Siswa yang Hadir:</h2>
-            <ul>
-                <?php
-                if ($result_hadir->num_rows > 0) {
-                    while ($siswa = $result_hadir->fetch_assoc()) {
-                        echo "<li>" . htmlspecialchars($siswa['nama']) . "</li>";
-                    }
-                } else {
-                    echo "<li>Tidak ada siswa yang hadir.</li>";
-                }
-                ?>
-            </ul>
-        </div>
 
         <a href="kegiatan_pembina.php" class="btn-back">Kembali ke Daftar Kegiatan</a>
     </div>

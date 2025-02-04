@@ -1,32 +1,27 @@
 <?php
 include 'koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_kegiatan = $_POST['id_kegiatan'];
-    $tanggal = $_POST['tanggal'];
-    $id_siswa = $_POST['id_siswa'];
-    $pbb = $_POST['pbb'];
-    $fisik = $_POST['fisik'];
-    $public_speaking = $_POST['public_speaking'];
-    $tanggung_jawab = $_POST['tanggung_jawab'];
-    $disiplin = $_POST['disiplin'];
-    $attitude = $_POST['attitude'];
+$id_kegiatan = $_POST['id_kegiatan'];
+$id_siswa_list = $_POST['id_siswa'];
+$tanggal = $_POST['tanggal'];
 
-    $stmt = $conn->prepare("INSERT INTO penilaian (id_siswa, id_kegiatan, tanggal, pbb, fisik, public_speaking, tanggung_jawab, disiplin, attitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+foreach ($id_siswa_list as $index => $id_siswa) {
+    // Cek apakah siswa sudah dinilai
+    $check_query = "SELECT * FROM penilaian WHERE id_siswa = '$id_siswa' AND id_kegiatan = '$id_kegiatan'";
+    $check_result = $conn->query($check_query);
 
-    for ($i = 0; $i < count($id_siswa); $i++) {
-        $stmt->bind_param('iisssssss', $id_siswa[$i], $id_kegiatan, $tanggal, $pbb[$i], $fisik[$i], $public_speaking[$i], $tanggung_jawab[$i], $disiplin[$i], $attitude[$i]);
-        $stmt->execute();
+    if ($check_result->num_rows == 0) {
+        // Jika belum dinilai, simpan data
+        $pbb = $_POST['pbb'][$index];
+        $fisik = $_POST['fisik'][$index];
+        $public_speaking = $_POST['public_speaking'][$index];
+        $disiplin = $_POST['disiplin'][$index];
+        $attitude = $_POST['attitude'][$index];
+
+        $insert_query = "INSERT INTO penilaian (id_kegiatan, id_siswa, tanggal, pbb, fisik, public_speaking, disiplin, attitude) 
+                         VALUES ('$id_kegiatan', '$id_siswa', '$tanggal', '$pbb', '$fisik', '$public_speaking', '$disiplin', '$attitude')";
+        $conn->query($insert_query);
     }
-
-    echo "<script>
-            alert('Data siswa berhasil disimpan!');
-            window.location.href = 'penilaian.php';
-          </script>";
-} else {
-    echo "<script>
-            alert('Metode pengiriman tidak valid.');
-             window.location.href='penilaian.php'();
-          </script>";
 }
+header("Location: tabel_penilaian.php");
 ?>

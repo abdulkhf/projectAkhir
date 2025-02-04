@@ -133,6 +133,16 @@
         .form-group {
             margin-bottom: 15px;
         }
+        
+        .radio-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Jarak antar elemen */
+        }
+    
+        .radio-container input[type="radio"] {
+            margin: 0 5px 0 0; /* Jarak antara radio dan label */
+        }
 
         label {
             display: block;
@@ -281,15 +291,13 @@
                 </div>
                 <div class="form-group">
                     <label for="status">Status Kehadiran</label>
-                    <div>
+                    <div class="radio-container">
                         <input type="radio" id="hadir" name="status" value="Hadir" required>
                         <label for="hadir">Hadir</label>
                         <input type="radio" id="izin" name="status" value="Izin">
                         <label for="izin">Izin</label>
                         <input type="radio" id="sakit" name="status" value="Sakit">
                         <label for="sakit">Sakit</label>
-                        <input type="radio" id="alpha" name="status" value="Alpha">
-                        <label for="alpha">Alpha</label>
                     </div>
                 </div>
                 <div class="form-group">

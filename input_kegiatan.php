@@ -16,67 +16,6 @@
             overflow: hidden;
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: #1e88e5;
-            color: #ffffff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-        }
-
-        .sidebar .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .sidebar .logo img {
-            width: 100px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ffffff;
-            font-size: 18px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-
-        .sidebar ul li a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 10px;
-            display: block;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #1565c0;
-        }
-
-        .sidebar footer {
-            text-align: center;
-            font-size: 14px;
-            color: #e3f2fd;
-        }
-
         .main-container {
             margin-left: 300px;
             padding: 20px;
@@ -164,23 +103,6 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <img src="img/logo.jpg" alt="Logo">
-        </div>
-        <h2>Admin</h2>
-        <ul>
-            <li><a href="admin_dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="data_siswa.php"><i class="fas fa-user-graduate"></i> Data Siswa</a></li>
-            <li><a href="laporan.php"><i class="fas fa-chart-line"></i> Laporan</a></li>
-            <li><a href="data_absen.php"><i class="fas fa-calendar-check"></i> Data Absen</a></li>
-            <li><a href="kegiatan.php"><i class="fas fa-bullhorn"></i> Kegiatan</a></li>
-            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-        <footer>
-            <p>&copy; 2025 Abdul Website</p>
-        </footer>
-    </div>
 
     <div class="main-container">
         <div class="form-container">

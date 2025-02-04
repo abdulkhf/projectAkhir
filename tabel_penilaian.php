@@ -115,7 +115,6 @@ $result = $conn->query($sql);
                     <th>PBB</th>
                     <th>Fisik</th>
                     <th>Public Speaking</th>
-                    <th>Tanggung Jawab</th>
                     <th>Disiplin</th>
                     <th>Attitude</th>
                 </tr>
@@ -133,7 +132,6 @@ $result = $conn->query($sql);
                                 <td>{$row['pbb']}</td>
                                 <td>{$row['fisik']}</td>
                                 <td>{$row['public_speaking']}</td>
-                                <td>{$row['tanggung_jawab']}</td>
                                 <td>{$row['disiplin']}</td>
                                 <td>{$row['attitude']}</td>
                               </tr>";
