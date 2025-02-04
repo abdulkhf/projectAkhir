@@ -5,7 +5,7 @@ include 'koneksi.php';
 $sql = "SELECT p.id, s.nama AS nama_siswa, k.nama_kegiatan, p.tanggal, 
         p.pbb, p.fisik, p.public_speaking, p.tanggung_jawab, p.disiplin, p.attitude 
         FROM penilaian p
-        JOIN data_siswa s ON p.id = s.id
+        JOIN data_siswa s ON p.id_siswa = s.id
         JOIN kegiatan_db k ON p.id_kegiatan = k.id
         ORDER BY p.tanggal DESC";
 
@@ -19,7 +19,7 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabel Penilaian</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="styles.css">
     <style>
         /* Reset CSS */
         * {
@@ -102,7 +102,6 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
-
     <h2>Tabel Hasil Penilaian</h2>
 
     <div class="table-container">
@@ -149,6 +148,5 @@ $result = $conn->query($sql);
     </div>
 
     <a href="penilaian.php" class="btn-back">Kembali</a>
-
 </body>
 </html>
